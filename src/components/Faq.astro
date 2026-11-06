@@ -1,0 +1,18 @@
+---
+interface Item { q: string; a: string[] | string; list?: string[]; after?: string }
+interface Props { items: Item[]; openFirst?: boolean }
+const { items, openFirst = true } = Astro.props;
+import Icon from "./Icon.astro";
+---
+<div class="faq">
+  {items.map((it, i) => (
+    <details open={openFirst && i === 0}>
+      <summary><span>{it.q}</span><Icon name="plus" size={20} class="faq-icon" /></summary>
+      <div class="faq-body">
+        {(Array.isArray(it.a) ? it.a : [it.a]).map((p) => <p set:html={p} />)}
+        {it.list && <ul class="tags">{it.list.map((l) => <li>{l}</li>)}</ul>}
+        {it.after && <p>{it.after}</p>}
+      </div>
+    </details>
+  ))}
+</div>

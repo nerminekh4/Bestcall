@@ -1,0 +1,103 @@
+---
+import { content, routes, type Lang } from "../i18n";
+import Icon from "../components/Icon.astro";
+import Flag from "../components/Flag.astro";
+import Wave from "../components/Wave.astro";
+import CtaBand from "../components/CtaBand.astro";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = content[lang];
+const h = t.pages.home;
+const r = routes[lang];
+const flags = ["fr", "es", "en", "de", "tr", "pt"];
+const icons = ["growth", "handshake", "headset", "target"];
+---
+<section class="hero-home">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="welcome">{h.welcome}</p>
+      <h1 class="h1-seo">{h.h1}</h1>
+      <p class="pill"><span class="dot"></span>{h.pill}</p>
+      <p class="display" aria-hidden="true">{h.heroA}<br />{h.heroB}</p>
+      <p class="script">{h.script}</p>
+      <p class="lead">{h.intro}</p>
+      <p class="partner">{h.partner}</p>
+      <div class="actions">
+        <a class="btn btn-navy" href={r.why}>{h.ctaWho} <Icon name="arrow" size={18} /></a>
+        <a class="btn btn-ghost" href={r.quote}>{h.ctaQuote}</a>
+      </div>
+    </div>
+    <figure class="hero-visual">
+      <img src="/images/equipe-bestcall.jpg" alt="" width="816" height="1069" fetchpriority="high" />
+      <Wave bars={14} class="hero-wave" />
+    </figure>
+  </div>
+</section>
+
+<section class="lang-band" aria-label={h.languagesTitle}>
+  <p class="lang-band-title">{h.languagesTitle}</p>
+  <div class="marquee">
+    <ul>
+      {[0, 1].map((n) => flags.map((f, i) => (
+        <li aria-hidden={n === 1 ? "true" : undefined}><Flag code={f} /><span>{t.languages[i]}</span></li>
+      )))}
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container split">
+    <figure class="photo photo-tall"><img src="/images/equipe-plateau.jpg" alt="" width="924" height="849" loading="lazy" /></figure>
+    <div>
+      <p class="eyebrow">{h.whoEyebrow}</p>
+      <h2>{h.whoTitle}</h2>
+      <p class="lead">{h.whoText}</p>
+      <dl class="stats">
+        {h.stats.map((s) => <div><dt>{s.value}</dt><dd>{s.label}</dd></div>)}
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="section section-paper">
+  <div class="container">
+    <p class="eyebrow">{h.servicesEyebrow}</p>
+    <h2>{h.servicesTitle}</h2>
+    <ul class="service-grid">
+      {h.services.map((s, i) => (
+        <li><a href={r.services}><span class="ico"><Icon name={icons[i]} /></span><h3>{s.title}</h3><p>{s.text}</p></a></li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container split split-reverse">
+    <div>
+      <p class="eyebrow">{h.techTitle}</p>
+      <h2 class="graam-title"><img src="/logos/logo-graam.jpg" alt="Graam" width="145" height="35" />{h.graamTagline}</h2>
+      {h.graamText.map((p) => <p set:html={p} />)}
+      <p><a class="text-link" href="https://www.graam.com/home" target="_blank" rel="noopener">{h.graamLink} <Icon name="arrow" size={16} /></a></p>
+    </div>
+    <figure class="photo photo-soft"><img src="/images/graam-interface.jpg" alt="Interface de la solution cloud Graam" width="933" height="910" loading="lazy" /></figure>
+  </div>
+</section>
+
+<section class="section section-paper">
+  <div class="container testimonial-grid">
+    <figure class="testimonial">
+      <p class="script">{h.testimonialsTitle}</p>
+      <blockquote>{h.quote}</blockquote>
+    </figure>
+    <div class="trust">
+      <h2 class="h3">{h.trustTitle}</h2>
+      <ul class="logos">
+        <li><img src="/logos/client-pausado.png" alt="Pausado" width="153" height="90" loading="lazy" /></li>
+        <li><img src="/logos/client-wengo.png" alt="Wengo" width="200" height="63" loading="lazy" /></li>
+        <li><img src="/logos/client-clotere.svg" alt="Clotere" width="160" height="50" loading="lazy" /></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<CtaBand lang={lang} />

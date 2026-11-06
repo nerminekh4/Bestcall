@@ -1,0 +1,12 @@
+---
+import { content, type Lang } from "../i18n";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const l = content[lang].pages.legal;
+---
+<section class="section">
+  <div class="container narrow prose legal">
+    <h1>{l.h1}</h1>
+    {l.sections.map((s) => (<>{s.title && <h2>{s.title}</h2>}{s.text.map((p) => <p set:html={p} />)}</>))}
+  </div>
+</section>

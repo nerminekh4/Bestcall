@@ -1,0 +1,27 @@
+---
+import { content, routes, type Lang } from "../i18n";
+import Icon from "./Icon.astro";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = content[lang];
+const r = routes[lang];
+const social = [
+  { name: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/company/bestcall-portugal/" },
+  { name: "facebook", label: "Facebook", href: "https://www.facebook.com/BestcallPortugal/" },
+  { name: "instagram", label: "Instagram", href: "https://www.instagram.com/bestcallpt/" },
+  { name: "mail", label: "E-mail", href: "mailto:contacto@bestcall.pt" },
+];
+---
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <a href={r.home} class="footer-logo"><img src="/logos/logo-bestcall-blanc.png" alt="BestCall" width="170" height="65" loading="lazy" /></a>
+    <div class="footer-meta">
+      <p>{t.footer.rights}</p>
+      <p>{t.footer.company} · <a href="mailto:contacto@bestcall.pt">contacto@bestcall.pt</a></p>
+      <p><a href={r.legal}>{t.footer.legal}</a></p>
+    </div>
+    <ul class="social">
+      {social.map((s) => <li><a href={s.href} aria-label={s.label} target={s.name === "mail" ? undefined : "_blank"} rel="noopener"><Icon name={s.name} /></a></li>)}
+    </ul>
+  </div>
+</footer>

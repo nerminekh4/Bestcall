@@ -1,0 +1,59 @@
+---
+import { content, linkify, type Lang } from "../i18n";
+import Icon from "../components/Icon.astro";
+import Wave from "../components/Wave.astro";
+import QuoteForm from "../components/QuoteForm.astro";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const j = content[lang].pages.jobs;
+const o = j.offer;
+const factIcons = ["pin", "file", "clock"];
+const condIcons = ["laptop", "clock", "laptop", "file"];
+---
+<section class="page-hero" style="--bg:url(/images/hero-recrutement.jpg)">
+  <div class="container">
+    <h1>{j.h1a}<br />{j.h1b}</h1>
+    <p class="lead">{j.sub}</p>
+  </div>
+  <Wave bars={22} class="page-hero-wave" />
+</section>
+
+<section class="section">
+  <div class="container">
+    <p class="count"><strong>{j.count}</strong> {j.countLabel}</p>
+    <div class="jobs-grid">
+      <article class="offer">
+        <p class="offer-date">{o.date}</p>
+        <h2 class="h3">{o.title}</h2>
+        <dl class="facts">{o.facts.map((f, i) => <div><dt><Icon name={factIcons[i]} size={18} />{f[0]}</dt><dd>{f[1]}</dd></div>)}</dl>
+        <details class="offer-more">
+          <summary><span class="more">{o.more}</span><span class="less">{o.less}</span><Icon name="chevron" size={18} /></summary>
+          <p>{o.intro}</p>
+          <h3 class="h4">{o.profileTitle}</h3>
+          <p>{o.profile}</p>
+          <h3 class="h4">{o.reqTitle}</h3>
+          <ul class="checks">{o.req.map((x) => <li><Icon name="check" size={18} />{x}</li>)}</ul>
+          <h3 class="h4">{o.condTitle}</h3>
+          <ul class="checks">{o.cond.map((x, i) => <li><Icon name={condIcons[i]} size={18} />{x}</li>)}</ul>
+          <p set:html={linkify(o.outro, lang)} />
+        </details>
+        <a class="btn btn-navy" href="#candidature">{o.apply}</a>
+      </article>
+      <div class="form-card" id="candidature">
+        <h2>{j.formTitle}</h2>
+        <QuoteForm lang={lang} kind="candidature" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-navy">
+  <div class="container split">
+    <div>
+      <h2>{j.spontTitle}</h2>
+      <p class="lead">{j.spontSub}</p>
+      <a class="btn btn-gold" href="#candidature">{j.spontBtn}</a>
+    </div>
+    <figure class="photo photo-soft"><img src="/images/equipe-plateau.jpg" alt="" width="924" height="849" loading="lazy" /></figure>
+  </div>
+</section>

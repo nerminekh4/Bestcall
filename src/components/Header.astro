@@ -1,0 +1,41 @@
+---
+import { content, routes, langs, langMeta, type Lang, type PageKey } from "../i18n";
+import Flag from "./Flag.astro";
+import Icon from "./Icon.astro";
+interface Props { lang: Lang; page: PageKey }
+const { lang, page } = Astro.props;
+const t = content[lang].nav;
+const r = routes[lang];
+const items: PageKey[] = ["home", "services", "why", "compare", "jobs"];
+---
+<a class="skip" href="#contenu">{t.skip}</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href={r.home} aria-label="BestCall"><img src="/logos/logo-bestcall.png" alt="BestCall — Votre voix, notre force" width="164" height="63" /></a>
+    <nav class="main-nav" aria-label="Navigation principale">
+      <ul>
+        {items.map((k) => <li><a href={r[k]} aria-current={k === page ? "page" : undefined}>{t[k]}</a></li>)}
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <details class="lang-switch">
+        <summary aria-label={t.language}><Flag code={lang} /><span>{lang.toUpperCase()}</span><Icon name="chevron" size={16} /></summary>
+        <ul>
+          {langs.map((l) => (
+            <li><a href={routes[l][page]} hreflang={langMeta[l].html} lang={langMeta[l].html} aria-current={l === lang ? "true" : undefined}><Flag code={l} />{langMeta[l].label}</a></li>
+          ))}
+        </ul>
+      </details>
+      <a class="btn btn-gold btn-sm header-cta" href={r.quote}>{t.quote}</a>
+      <details class="mobile-menu">
+        <summary aria-label={t.menu}><span class="open"><Icon name="menu" /></span><span class="shut"><Icon name="close" /></span></summary>
+        <div class="mobile-panel">
+          <ul>
+            {items.map((k) => <li><a href={r[k]} aria-current={k === page ? "page" : undefined}>{t[k]}</a></li>)}
+          </ul>
+          <a class="btn btn-gold" href={r.quote}>{t.quote}</a>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>

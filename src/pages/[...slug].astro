@@ -1,0 +1,28 @@
+---
+// Une seule route génère toutes les pages dans toutes les langues.
+import Base from "../layouts/Base.astro";
+import Home from "../views/Home.astro";
+import Services from "../views/Services.astro";
+import Why from "../views/Why.astro";
+import Compare from "../views/Compare.astro";
+import Jobs from "../views/Jobs.astro";
+import Quote from "../views/Quote.astro";
+import Legal from "../views/Legal.astro";
+import { content, langs, pageKeys, routes, type Lang, type PageKey } from "../i18n";
+
+export function getStaticPaths() {
+  return langs.flatMap((lang) =>
+    pageKeys.map((page) => ({
+      params: { slug: routes[lang][page].replace(/^\/|\/$/g, "") || undefined },
+      props: { lang, page },
+    })),
+  );
+}
+const { lang, page } = Astro.props as { lang: Lang; page: PageKey };
+const meta = content[lang].pages[page];
+const views = { home: Home, services: Services, why: Why, compare: Compare, jobs: Jobs, quote: Quote, legal: Legal };
+const View = views[page];
+---
+<Base lang={lang} page={page} title={meta.title} description={meta.description} ogImage={page === "compare" ? "/images/og-comparatif.jpg" : undefined}>
+  <View lang={lang} />
+</Base>

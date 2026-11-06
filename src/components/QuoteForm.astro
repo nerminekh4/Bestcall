@@ -1,0 +1,41 @@
+---
+import { content, linkify, type Lang } from "../i18n";
+interface Props { lang: Lang; kind: "devis" | "candidature" }
+const { lang, kind } = Astro.props;
+const f = content[lang].form;
+---
+{kind === "devis" ? (
+  <form class="form" name="devis" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+    <input type="hidden" name="form-name" value="devis" />
+    <input type="hidden" name="langue" value={lang} />
+    <p class="hp"><label>Ne pas remplir <input name="bot-field" /></label></p>
+    <label>{f.name}<input name="nom" autocomplete="name" required /></label>
+    <label>{f.email}<input type="email" name="email" autocomplete="email" required /></label>
+    <div class="form-row">
+      <label>{f.phone} <span class="opt">{f.optional}</span><input type="tel" name="telephone" autocomplete="tel" /></label>
+      <label>{f.company} <span class="opt">{f.optional}</span><input name="societe" autocomplete="organization" /></label>
+    </div>
+    <label>{f.project}<textarea name="projet" rows="5" required></textarea></label>
+    <p class="consent" set:html={linkify(f.consent, lang)} />
+    <button class="btn btn-navy" type="submit">{f.sendQuote}</button>
+  </form>
+) : (
+  <form class="form" name="candidature" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data">
+    <input type="hidden" name="form-name" value="candidature" />
+    <input type="hidden" name="langue" value={lang} />
+    <p class="hp"><label>Ne pas remplir <input name="bot-field" /></label></p>
+    <label>{f.name}<input name="nom" autocomplete="name" required /></label>
+    <div class="form-row">
+      <label>{f.email}<input type="email" name="email" autocomplete="email" required /></label>
+      <label>{f.phone}<input type="tel" name="telephone" autocomplete="tel" required /></label>
+    </div>
+    <label>{f.job}<input name="poste" required /></label>
+    <div class="form-row">
+      <label class="file">{f.cv}<input type="file" name="cv" accept=".pdf,.doc,.docx,.odt" required /></label>
+      <label class="file">{f.cover} <span class="opt">{f.optional}</span><input type="file" name="lettre" accept=".pdf,.doc,.docx,.odt" /></label>
+    </div>
+    <label>{f.message}<textarea name="message" rows="4"></textarea></label>
+    <p class="consent" set:html={linkify(f.consent, lang)} />
+    <button class="btn btn-navy" type="submit">{f.sendJob}</button>
+  </form>
+)}

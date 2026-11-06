@@ -1,0 +1,57 @@
+---
+import { content, routes, linkify, type Lang } from "../i18n";
+import Icon from "../components/Icon.astro";
+import Wave from "../components/Wave.astro";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const w = content[lang].pages.why;
+const r = routes[lang];
+const icons = ["people", "globe", "bolt", "shield", "heart"];
+---
+<section class="page-hero" style="--bg:url(/images/equipe-bestcall.jpg)">
+  <div class="container">
+    <h1>{w.h1}</h1>
+    <p class="lead">{w.sub}</p>
+    <a class="btn btn-gold" href="#atouts">{w.btn}</a>
+  </div>
+  <Wave bars={22} class="page-hero-wave" />
+</section>
+
+<section class="section" id="atouts">
+  <div class="container">
+    <ul class="card-row">
+      {w.cards.map((c, i) => <li><span class="ico"><Icon name={icons[i]} /></span><h3>{c.title}</h3><p>{c.text}</p></li>)}
+    </ul>
+  </div>
+</section>
+
+<section class="section section-navy">
+  <div class="container split split-top">
+    <div>
+      <h2>{w.philoTitle}</h2>
+      <p class="lead">{w.philoLead}</p>
+      {w.philo.map((p) => <p set:html={p} />)}
+      <p class="compare-note" set:html={linkify(w.compareText, lang)} />
+      <p><a class="btn btn-gold" href={r.quote}>{w.quoteBtn}</a></p>
+    </div>
+    <figure class="photo photo-tall"><img src="/images/conseiller.jpg" alt="" width="630" height="744" loading="lazy" /></figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container narrow center">
+    <h2>{w.testiTitle}</h2>
+    <p>{w.testiSub}</p>
+    <figure class="testimonial-card">
+      <span class="quote-mark" aria-hidden="true">“</span>
+      <blockquote>{w.testimonial.map((p) => <p>{p}</p>)}</blockquote>
+      <figcaption>{w.author}</figcaption>
+    </figure>
+    <ul class="logos logos-center">
+      <li><img src="/logos/client-pausado.png" alt="Pausado" width="153" height="90" loading="lazy" /></li>
+      <li><img src="/logos/client-wengo.png" alt="Wengo" width="200" height="63" loading="lazy" /></li>
+      <li><img src="/logos/client-clotere.svg" alt="Clotere" width="160" height="50" loading="lazy" /></li>
+    </ul>
+    <p><a class="btn btn-navy" href={r.quote}>{w.finalBtn} <Icon name="arrow" size={18} /></a></p>
+  </div>
+</section>

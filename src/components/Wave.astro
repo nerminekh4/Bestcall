@@ -1,0 +1,9 @@
+---
+// Motif « onde sonore » : signature visuelle de la marque (une voix).
+interface Props { bars?: number; class?: string }
+const { bars = 18, class: cls } = Astro.props;
+const heights = Array.from({ length: bars }, (_, i) => Math.round(25 + 70 * Math.abs(Math.sin(i * 1.7) * Math.cos(i * 0.45))));
+---
+<div class:list={["wave", cls]} aria-hidden="true">
+  {heights.map((h, i) => <span style={`--h:${h}%;--i:${i}`}></span>)}
+</div>

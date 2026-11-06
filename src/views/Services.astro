@@ -1,0 +1,52 @@
+---
+import { content, routes, linkify, type Lang } from "../i18n";
+import Icon from "../components/Icon.astro";
+import Faq from "../components/Faq.astro";
+import Wave from "../components/Wave.astro";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const s = content[lang].pages.services;
+const r = routes[lang];
+const icons = ["growth", "handshake", "headset", "target"];
+---
+<section class="page-hero" style="--bg:url(/images/hero-services.jpg)">
+  <div class="container">
+    <h1>{s.h1}</h1>
+    <p class="lead">{s.sub}</p>
+    <a class="btn btn-gold" href={r.quote}>{s.btn}</a>
+  </div>
+  <Wave bars={22} class="page-hero-wave" />
+</section>
+
+<section class="section">
+  <div class="container split split-top">
+    <figure class="photo photo-tall sticky"><img src="/images/conseillere-casque.jpg" alt="" width="792" height="1115" loading="lazy" /></figure>
+    <div>
+      <h2>{s.servicesTitle}</h2>
+      <ol class="service-list">
+        {s.items.map((it, i) => (
+          <li><span class="ico"><Icon name={icons[i]} /></span><div><h3>{it.title}</h3><p>{it.text}</p></div></li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="section section-navy">
+  <div class="container">
+    <h2 class="center">{s.whyTitle}</h2>
+    <ul class="big-stats">
+      {s.why.map((w) => <li><strong>{w.value}</strong><h3>{w.title}</h3><p>{w.text}</p></li>)}
+    </ul>
+    <p class="center compare-note" set:html={linkify(s.compareText, lang)} />
+    <p class="center"><a class="btn btn-gold" href={r.quote}>{s.quoteBtn}</a></p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container narrow">
+    <h2>{s.faqTitle}</h2>
+    <Faq items={s.faq} />
+    <p><a class="btn btn-navy" href={r.quote}>{s.moreBtn}</a></p>
+  </div>
+</section>

@@ -1,0 +1,17 @@
+---
+import { content, routes, type Lang } from "../i18n";
+import Wave from "./Wave.astro";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const h = content[lang].pages.home;
+---
+<section class="cta-band">
+  <div class="container cta-inner">
+    <div>
+      <h2>{h.ctaTitle}</h2>
+      <p>{h.ctaText}</p>
+    </div>
+    <a class="btn btn-gold btn-lg" href={routes[lang].quote}>{h.ctaBtn}</a>
+  </div>
+  <Wave bars={28} class="cta-wave" />
+</section>
